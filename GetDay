@@ -66,6 +66,7 @@ print("Downloaded input file to Sources/Data/\(dayString).txt.")
 
 let sourceFileDefault = """
 import Algorithms
+import Parsing
 
 struct \(dayString): AdventDay {
   var data: String
