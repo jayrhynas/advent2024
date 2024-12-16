@@ -30,6 +30,11 @@ struct Day01: AdventDay {
   }
 
   func part2() throws -> Int {
-    return 0
+    let lists = try ListsParser().parse(data)
+    let counts = lists.1.reduce(into: [Int: Int]()) { $0[$1, default: 0] += 1 }
+    
+    return lists.0.reduce(0) {
+      $0 + $1 * counts[$1, default: 0]
+    }
   }
 }
