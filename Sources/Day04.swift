@@ -62,7 +62,7 @@ struct Day04: AdventDay {
     }
   }
   
-  func search(_ grid: Grid, from index: Coordinate) -> Int {
+  func searchXMAS(_ grid: Grid, from index: Coordinate) -> Int {
     var count = 0
     
     dirLoop: for dir in Dir.allCases {
@@ -86,12 +86,33 @@ struct Day04: AdventDay {
     for coord in grid.coordinates {
       guard grid[coord] == "X" else { continue }
       
-      total += search(grid, from: coord)
+      total += searchXMAS(grid, from: coord)
     }
     return total
   }
 
-  func part2() -> Int {
-    return 0
+  func searchX_MAS(_ grid: Grid, from index: Coordinate) -> Int {
+    let downDiag = (grid[index + Dir.nw.offset], grid[index + Dir.se.offset])
+    let upDiag   = (grid[index + Dir.sw.offset], grid[index + Dir.ne.offset])
+    
+    guard (downDiag == ("M", "S") || downDiag == ("S", "M"))
+       && (upDiag   == ("M", "S") || upDiag   == ("S", "M"))
+    else {
+      return 0
+    }
+    
+    return 1
+  }
+  
+  func part2() throws -> Int {
+    let grid = try GridParser().parse(data)
+    
+    var total = 0
+    for coord in grid.coordinates {
+      guard grid[coord] == "A" else { continue }
+      
+      total += searchX_MAS(grid, from: coord)
+    }
+    return total
   }
 }
