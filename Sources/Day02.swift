@@ -36,10 +36,25 @@ struct Day02: AdventDay {
   
   func part1() throws -> Int {
     try LevelsParser().parse(data)
-      .count(where: isSafe(_:))
+      .count(where: isSafe)
+  }
+  
+  func isSafeDampened(_ report: [Int]) -> Bool {
+    if isSafe(report) { return true }
+    
+    for idx in report.indices {
+      var modifiedReport = report
+      modifiedReport.remove(at: idx)
+      if isSafe(modifiedReport) {
+        return true
+      }
+    }
+    
+    return false
   }
 
-  func part2() -> Int {
-    return 0
+  func part2() throws -> Int {
+    try LevelsParser().parse(data)
+      .count(where: isSafeDampened)
   }
 }
